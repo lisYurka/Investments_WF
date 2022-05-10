@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 
 namespace Invest.Services
@@ -28,7 +24,7 @@ namespace Invest.Services
             }
         }
 
-        //собсна, парсим наши данные из строки в числа
+        //для суммы вклада и процентов
         public static void GetInputValue(string value, out double d)
         {
             d = 0;

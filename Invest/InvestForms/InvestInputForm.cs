@@ -9,21 +9,21 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using Invest.Services;
+using Invest.Entities;
 
 namespace Invest.InvestForms
 {
     public partial class InvestInputForm : Form
     {
-        public static double DepositStartSum { get; set; }
-        public static double DepositPercentage { get; set; }
-        public static int DepositDays { get; set; }
         public InvestInputForm()
         {
             InitializeComponent();
 
-            investTypeCB.SelectedIndex = 0;
-            investCurrencyCB.SelectedIndex = 0;
-            investDateCB.SelectedIndex = 0;
+            investTypeCB.SelectedIndex = InvestData.DepositType;
+            investCurrencyCB.SelectedIndex = InvestData.DepositCurrency;
+            investDateCB.SelectedIndex = InvestData.DepositDateType;
+            investValueTB.Text = InvestData.DepositCurValue.ToString();
+            investDateTB.Text = InvestData.DepositDateValue.ToString();
 
             investTypeCB.SelectedIndexChanged += investTypeCB_SelectedIndexChanged;
             investCurrencyCB.SelectedIndexChanged += investCurrencyCB_SelectedIndexChanged;
@@ -32,22 +32,22 @@ namespace Invest.InvestForms
 
         private void investTypeCB_SelectedIndexChanged(object sender, EventArgs e)
         {
-            InvestCalculation.DepositType = investTypeCB.SelectedIndex;
+            InvestData.DepositType = investTypeCB.SelectedIndex;
         }
 
         private void investCurrencyCB_SelectedIndexChanged(object sender, EventArgs e)
         {
-            InvestCalculation.DepositCurrency = investCurrencyCB.SelectedIndex;
+            InvestData.DepositCurrency = investCurrencyCB.SelectedIndex;
         }
 
         private void investDateCB_SelectedIndexChanged(object sender, EventArgs e)
         {
-            InvestCalculation.DepositDateType = investDateCB.SelectedIndex;
+            InvestData.DepositDateType = investDateCB.SelectedIndex;
         }
 
         private void cancelInputBtn_Click(object sender, EventArgs e)
         {
-            DialogResult dlg = MessageBox.Show("Are you sure you want to close ?", "Warning!", 
+            DialogResult dlg = MessageBox.Show("Вы точно хотите закрыть?", "Внимание!", 
                                MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
             if(dlg == DialogResult.OK)
                 this.Close();
@@ -55,26 +55,21 @@ namespace Invest.InvestForms
 
         private void confirmInputBtn_Click(object sender, EventArgs e)
         {
-            DataValidation.GetInputValue(investValueTB.Text, out double value_d);
-            DataValidation.GetInputValue(investPercentTB.Text, out double perc_d);
-            DataValidation.GetInputDays(investDateTB.Text, out int date_i);
+            DataValidation.GetInputValue(investValueTB.Text, out double currencyValue);
+            DataValidation.GetInputDays(investDateTB.Text, out int term);
 
-            //подумать, как сделать выбор типа значения в зависимости от полученных результатов
-            if (value_d != 0 || perc_d != 0 || date_i != 0)
+            if (currencyValue != 0 || term != 0)
             {
-                DialogResult dlg = MessageBox.Show("Do you want to confirm your input?","Confirm", 
+                DialogResult dlg = MessageBox.Show("Вы точно хотите подтвердить ваш выбор?","Подтверждение", 
                                    MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
                 if(dlg == DialogResult.OK)
                 {
-                    DepositStartSum = value_d;
-                    DepositPercentage = perc_d;
-                    DepositDays = date_i;
-
-                    double res = InvestCalculation.CalculateResult(value_d, perc_d, date_i);
-                    MessageBox.Show(res.ToString());
+                    InvestData.DepositCurValue = currencyValue;
+                    InvestData.DepositDateValue = term;
+                    this.Close();
                 }
             }
-            else MessageBox.Show("BAD INPUT!");
+            else MessageBox.Show("Проверьте правильность ввода!");
         }
     }
 }
