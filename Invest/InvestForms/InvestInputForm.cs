@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using Invest.Services;
@@ -58,7 +51,7 @@ namespace Invest.InvestForms
             DataValidation.GetInputValue(investValueTB.Text, out double currencyValue);
             DataValidation.GetInputDays(investDateTB.Text, out int term);
 
-            if (currencyValue != 0 || term != 0)
+            if (currencyValue != 0 && term != 0)
             {
                 DialogResult dlg = MessageBox.Show("Вы точно хотите подтвердить ваш выбор?","Подтверждение", 
                                    MessageBoxButtons.OKCancel, MessageBoxIcon.Information);

@@ -1,20 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using Invest.InvestForms;
 
 namespace Invest
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
-        public Form1()
+        private int charIndex = 0;
+
+        public MainForm()
         {
             InitializeComponent();
         }
@@ -37,15 +32,14 @@ namespace Invest
             new CalculationForm().ShowDialog();
         }
 
-        int i = 0;
         private void timer1_Tick(object sender, EventArgs e)
         {
             timer1.Interval = 300;
             string str = "Доход по вкладу";
-            this.Text = str.Substring(0, i);
-            i++;
-            if (i > str.Length)
-                i = 0;
+            this.Text = str.Substring(0, charIndex);
+            charIndex ++;
+            if (charIndex > str.Length)
+                charIndex = 0;
         }
     }
 }

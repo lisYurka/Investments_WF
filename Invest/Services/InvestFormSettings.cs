@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace Invest.Services
 {
-    internal class InvestFormParams
+    internal class InvestFormSettings
     {
         private static string? BankInfo { get; set; } = null;
         public static string? ChooseUrlDepositType(int value) => value switch
@@ -37,8 +37,6 @@ namespace Invest.Services
             _ => null
         };
 
-
-
         public static HtmlElement GetElementById(WebBrowser wb, string id) => wb.Document.GetElementById(id);
         public static HtmlElementCollection GetElementsByTagName(WebBrowser wb, string tag) => wb.Document.GetElementsByTagName(tag);
 
@@ -53,30 +51,35 @@ namespace Invest.Services
             return null;
         }
 
-        private static string[]? GetInfoAboutBanks(WebBrowser wb)
+        //сделать возвращаемый тип List, ибо при полученном значении оно сразу прерывается
+        private static List<string[]?> GetInfoAboutBanks(WebBrowser wb)
         {
+            List<string[]?> coll = new List<string[]?>();
             HtmlElementCollection? banks = GetElementsByTagName(wb, "div");
             foreach (HtmlElement el in banks)
             {
                 if (el.GetAttribute("className") == "sf")
                 {
                     BankInfo = el.InnerText;
-                    return BankInfo.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+                    coll.Add(BankInfo.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries));
                 }
             }
-            return null;
+            return coll;
         }
 
         public static void AddDataToGrid(WebBrowser wb, DataGridView dgv, double startValue, Label lb)
         {
-            string[]? info = GetInfoAboutBanks(wb);
+            List<string[]?> info = GetInfoAboutBanks(wb);
             if (info != null)
             {
-                lb.ForeColor = System.Drawing.Color.Green;
-                lb.Text = "Под ваши требования соответствуют следующие банки";
-                Double.TryParse(info[^1]?.Replace('.', ','), out double earnValue);
-                info[^1] = Math.Round(earnValue - startValue, 3).ToString();
-                dgv.Rows.Add(info);
+                foreach (var item in info)
+                {
+                    lb.ForeColor = System.Drawing.Color.Green;
+                    lb.Text = "Под ваши требования соответствуют следующие банки";
+                    Double.TryParse(item[^1]?.Replace('.', ','), out double earnValue);
+                    item[^1] = Math.Round(earnValue - startValue, 3).ToString();
+                    dgv.Rows.Add(item);
+                }
             }
             else
             {
