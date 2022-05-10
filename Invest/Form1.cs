@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-using Invest.InvestInput;
+using Invest.InvestForms;
 
 namespace Invest
 {
@@ -30,6 +30,11 @@ namespace Invest
                                    MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if(dlg_res == DialogResult.Yes)
                 Application.Exit();
+        }
+
+        private void calculationsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            new CalculationForm().ShowDialog();
         }
     }
 }

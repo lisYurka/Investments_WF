@@ -10,20 +10,20 @@ using System.Windows.Forms;
 
 using Invest.Services;
 
-namespace Invest.InvestInput
+namespace Invest.InvestForms
 {
     public partial class InvestInputForm : Form
     {
-        public int DepositType { get; set; }
-        public int DepositCurrency { get; set; }
-        public int DepositDate { get; set; }
+        public static double DepositStartSum { get; set; }
+        public static double DepositPercentage { get; set; }
+        public static int DepositDays { get; set; }
         public InvestInputForm()
         {
             InitializeComponent();
 
             investTypeCB.SelectedIndex = 0;
-            investCurrencyCB.SelectedIndex = 1;
-            investDateCB.SelectedIndex = 1;
+            investCurrencyCB.SelectedIndex = 0;
+            investDateCB.SelectedIndex = 0;
 
             investTypeCB.SelectedIndexChanged += investTypeCB_SelectedIndexChanged;
             investCurrencyCB.SelectedIndexChanged += investCurrencyCB_SelectedIndexChanged;
@@ -55,18 +55,21 @@ namespace Invest.InvestInput
 
         private void confirmInputBtn_Click(object sender, EventArgs e)
         {
-            DataValidation.GetInputValue(investValueTB.Text, out double value_d, out int value_i);
-            DataValidation.GetInputValue(investPercentTB.Text, out double perc_d, out int perc_i);
-            DataValidation.GetInputValue(investDateTB.Text, out double date_d, out int date_i);
+            DataValidation.GetInputValue(investValueTB.Text, out double value_d);
+            DataValidation.GetInputValue(investPercentTB.Text, out double perc_d);
+            DataValidation.GetInputDays(investDateTB.Text, out int date_i);
 
             //подумать, как сделать выбор типа значения в зависимости от полученных результатов
-            if (value_d != 0 || value_i != 0 || perc_d != 0 ||
-                perc_i != 0 || date_d != 0 || date_i != 0)
+            if (value_d != 0 || perc_d != 0 || date_i != 0)
             {
                 DialogResult dlg = MessageBox.Show("Do you want to confirm your input?","Confirm", 
                                    MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
                 if(dlg == DialogResult.OK)
                 {
+                    DepositStartSum = value_d;
+                    DepositPercentage = perc_d;
+                    DepositDays = date_i;
+
                     double res = InvestCalculation.CalculateResult(value_d, perc_d, date_i);
                     MessageBox.Show(res.ToString());
                 }

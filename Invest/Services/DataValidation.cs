@@ -29,11 +29,20 @@ namespace Invest.Services
         }
 
         //собсна, парсим наши данные из строки в числа
-        public static void GetInputValue(string value, out double d, out int i)
+        public static void GetInputValue(string value, out double d)
         {
-            d = i = 0;
+            d = 0;
             if (CheckTBEmpty(value, out string? result)) {
                 Double.TryParse(result, out d);
+            }
+        }
+
+        //только дни всегда целые
+        public static void GetInputDays(string value, out int i)
+        {
+            i = 0;
+            if (CheckTBEmpty(value, out string? result))
+            {
                 Int32.TryParse(result, out i);
             }
         }

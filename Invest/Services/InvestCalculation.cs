@@ -24,7 +24,8 @@ namespace Invest.Services
         private static int GetDaysBtwDates(Calendar calendar, int monthes)
         {
             int currentMonth = calendar.GetMonth(DateTime.Now);
-            for(int i = currentMonth; i < monthes)
+            //for(int i = currentMonth; i < monthes)
+            return 0;
         }
 
         //рассчитываем нашу процентную ставку (формула простых процентов)
