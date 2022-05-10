@@ -78,6 +78,7 @@
             // 
             // timer1
             // 
+            this.timer1.Enabled = true;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // label1
@@ -88,11 +89,11 @@
             this.label1.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.label1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.label1.Font = new System.Drawing.Font("Segoe UI", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label1.Location = new System.Drawing.Point(196, 412);
+            this.label1.Location = new System.Drawing.Point(138, 412);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(395, 30);
+            this.label1.Size = new System.Drawing.Size(538, 30);
             this.label1.TabIndex = 1;
-            this.label1.Text = "ФИО, номер группы, номер варианта";
+            this.label1.Text = "Хасполадова Медина Валеховна, 240320, вариант 2";
             // 
             // Form1
             // 

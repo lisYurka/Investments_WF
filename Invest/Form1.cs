@@ -42,7 +42,7 @@ namespace Invest
         {
             timer1.Interval = 300;
             string str = "Доход по вкладу";
-            Text = str.Substring(0, i);
+            this.Text = str.Substring(0, i);
             i++;
             if (i > str.Length)
                 i = 0;
